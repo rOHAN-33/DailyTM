@@ -14,81 +14,440 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id String @id
-  name String
-  email String @unique
-  about String?
-  industryType String
-  role String
-  country String
-  workspaces WorkspaceMember[]
-  image String?
-  tasks Tasks[]
-  activities Activities[]
-  comments Comment[]
-  subscription Subscription?
+// model User{
+//   id String @id
+//   name String
+//   email String @unique
+//   about String?
+//   industryType String
+//   role String
+//   country String
+//   workspaces WorkspaceMember[]
+//   image String?
+//   tasks Task[]
+//   activities Activity[]
+//   comments Comment[]
+//   subscription Subscription?
 
-  onboardingCompleted Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+//   onboardingCompleted Boolean  @default(false)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
+// }
+
+// model Workspace{
+//   id String @id @default(uuid())
+//   name String
+//   description String?
+//   ownerId String?
+//   members WorkspaceMember[]
+//   projects Project[]
+//   inviteCode String @unique
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// enum AccessLevel{
+//   OWNER 
+//   MEMBER 
+//   VIEWER
+// }
+
+// model WorkspaceMember{
+//   id  String @id @default (uuid())
+//   userId String
+//   User User @relation(fields: [userId], references[id], onDelete: Cascade)
+
+//   workspaceId String
+//   workspace Workspace  @relation(fields: [userId], references[id], onDelete: Cascade)
+
+
+//   accessLevel AccessLevel  @default(MEMBER)
+//   projectAccess ProjectAccess[]
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @unique([userId, workspaceId])
+// }
+
+
+// model Project{
+//   id String @id @default(uuid())
+//   name String
+//   description String?
+//   workspaceId String
+//   Workspace Workspace @relation(fields: [userId], references[id], onDelete: Cascade)
+
+//   tasks Task[]
+//   activities Activity[]
+//   comments Comment[]
+//   projectAccess ProjectAccess[]
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   documentation Documentation[]
+
+
+//   @unique([workspaceId])
+// }
+
+
+// model ProjectAccess{
+//   id String @id @default(uuid())
+//   workspaceMemberId String
+//   WorkspaceMember WorkspaceMember @relation(fields: [userId], references[id], onDelete: Cascade)
+
+//   projectId String
+//   Project Project @relation(fields: [userId], references[id], onDelete: Cascade)
+
+//   hasAccess Boolean @default(false)
+  
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @unique([workspaceMemberId, projectId])
+// }
+
+
+// enum TaskStatus{
+//   TODO
+//   IN_PROGRESS
+//   COMPLETED 
+//   IN_REVIEW
+//   BACKLOG
+// }
+
+// enum TaskPriority{
+//   LOW 
+//   MEDIUM 
+//   HIGH
+// }
+
+// model Task{
+//   id String @id @default(uuid())
+//   title String
+//   description String?
+//   status TaskStatus @default(TODO)
+//   priority TaskPriority @default(LOW)
+//   startDate DateTime
+//   dueDate DateTime
+
+//   position Int 
+
+//   projectId String
+//   project Project @relation(fields: [userId], references[id], onDelete: Cascade)
+
+//   assignedId String?
+//   assignedTo User? @relation(fields: [userId], references[id], onDelete: SetNull)
+
+//   attachments File[]
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Activity{
+//   id String  @id @default(uuid())
+//   type String
+//   description String
+//   projectId String
+//   project Project  @relation(fields: [userId], references[id], onDelete: Cascade)
+//   userId String
+//   user User @relation(fields: [userId], references[id], onDelete: Cascade)
+//   createdAt DateTime @default(now())
+
+//   @@index([projectId])
+//   @@index([userId])
+// }
+
+// model Comment{
+//   id String @id @default(uuid())
+//   content String
+//   projectId String
+//   userId String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   project Project  @relation(fields: [userId], references[id], onDelete: Cascade)
+//   user User @relation(fields: [userId], references[id], onDelete: Cascade)
+
+//   @@index([projectId])
+//   @@index([projectId])
+// }
+
+// model Documentation{
+//   id String @id @default(uuid())
+//   projectId String @unique
+//   content String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   project Project @relation(fields:[projectId], references:[id])
+
+//   updatedBy String?
+// }
+
+
+// enum FileType{
+//   IMAGE 
+//   PDF
+// }
+// model File{
+//   id String @id @default(uuid())
+//   name String
+//   url String
+//   taskId String?
+ 
+//   type FileType
+//   task Task? @relation(fields: [userId], references[id], onDelete: Cascade)
+  
+//   createdAt DateTime @default(now())
+// }
+
+// enum SubscriptionPlan{
+//   FREE 
+//   PRO 
+//   ENTERPRISE
+// }
+// enum SubscriptionStatus{
+//   ACTIVE
+//   CANCELLED
+//   EXPIRED
+//   PAST_DUE
+// }
+
+// model Subscription{
+//   id String   @id @default(uuid())
+//   userId String @unique
+//   user User @relation(fields: [userId], references[id], onDelete: Cascade)
+//   plan SubscriptionPlan @default(FREE)
+//   status SubscriptionStatus @default(ACTIVE)
+//   lemonsqueezyId String?
+//   orderId String?
+//   customerId String?
+//   currentPeriodEnd DateTime?
+//   frequency String @default("monthly")
+//   cancelAtPeriodEnd Boolean @default(false)
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@index([userId])
+// }
+
+
+
+
+
+
+
+model User {
+  id                  String           @id
+  name                String
+  email               String           @unique
+  about               String?
+  industryType        String
+  role                String
+  country             String
+  workspaces          WorkspaceMember[]
+  image               String?
+  tasks               Task[]
+  activities          Activity[]
+  comments            Comment[]
+  subscription        Subscription?
+
+  onboardingCompleted Boolean          @default(false)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
 }
 
-model Workspace{
-  id String @id @default(uuid())
-  name String
+model Workspace {
+  id          String           @id @default(uuid())
+  name        String
   description String?
-  ownerId String?
-  members WorkspaceMember[]
-  projects Project[]
-  inviteCode String @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  ownerId     String?
+  members     WorkspaceMember[]
+  projects    Project[]
+  inviteCode  String           @unique
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 }
 
-enum AccessLevel{
-  OWNER 
-  MEMBER 
+enum AccessLevel {
+  OWNER
+  MEMBER
   VIEWER
 }
 
-model WorkspaceMember{
-  id  String @id @default (uuid())
-  userId String
-  User User @relation(fields: [userId], references[id], onDelete: Cascade)
+model WorkspaceMember {
+  id           String        @id @default(uuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  workspaceId String
-  workspace Workspace  @relation(fields: [userId], references[id], onDelete: Cascade)
+  workspaceId  String
+  workspace    Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
 
-
-  accessLevel AccessLevel  @default(MEMBER)
+  accessLevel  AccessLevel   @default(MEMBER)
   projectAccess ProjectAccess[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
-  @unique([userId, workspaceId])
+  @@unique([userId, workspaceId])
 }
 
-
-model Project{
-  id String @id @default(uuid())
-  name String
+model Project {
+  id          String           @id @default(uuid())
+  name        String
   description String?
   workspaceId String
-  Workspace Workspace @relation(fields: [userId], references[id], onDelete: Cascade)
+  workspace   Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
 
-  tasks Tasks[]
-  activities Activities[]
-  comments Comment[]
+  tasks       Task[]
+  activities  Activity[]
+  comments    Comment[]
   projectAccess ProjectAccess[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   documentation Documentation[]
 
-
-  @unique([workspaceId])
+  @@unique([workspaceId])
 }
 
+model ProjectAccess {
+  id                String     @id @default(uuid())
+  workspaceMemberId String
+  workspaceMember   WorkspaceMember @relation(fields: [workspaceMemberId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
 
-model 
+  projectId         String
+  project           Project    @relation(fields: [projectId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
+
+  hasAccess         Boolean    @default(false)
+
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@unique([workspaceMemberId, projectId])
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  IN_REVIEW
+  BACKLOG
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model Task {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(LOW)
+  startDate   DateTime
+  dueDate     DateTime
+
+  position    Int
+
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
+
+  assignedId  String?
+  assignedTo  User?        @relation(fields: [assignedId], references: [id], onDelete: SetNull) // ❌ FIXED: was [userId]
+
+  attachments File[]
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  type        String
+  description String
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@index([projectId])
+  @@index([userId])
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  content     String
+  projectId   String
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([userId]) // ⚠️ DUPLICATE — you had [projectId] twice. Fixed to [userId]
+}
+
+model Documentation {
+  id          String   @id @default(uuid())
+  projectId   String   @unique
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  project     Project  @relation(fields: [projectId], references: [id])
+
+  updatedBy   String?  // ⚠️ You may want to relate this to User later, but currently it’s fine as String
+}
+
+enum FileType {
+  IMAGE
+  PDF
+}
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  taskId    String?
+  type      FileType
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade) // ❌ FIXED: was [userId]
+
+  createdAt DateTime @default(now())
+}
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  PAST_DUE
+}
+
+model Subscription {
+  id                  String             @id @default(uuid())
+  userId              String             @unique
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                SubscriptionPlan   @default(FREE)
+  status              SubscriptionStatus @default(ACTIVE)
+  lemonsqueezyId      String?
+  orderId             String?
+  customerId          String?
+  currentPeriodEnd    DateTime?
+  frequency           String             @default("monthly")
+  cancelAtPeriodEnd   Boolean            @default(false)
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  @@index([userId])
+}
