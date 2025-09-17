@@ -3,13 +3,16 @@
 import { userSchema } from '@/lib/schema'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
+import z, { date } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { FormInput } from 'lucide-react'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { countryList } from '@/utils/countriesList'
+import { startOfDay } from 'date-fns'
 
 
 
@@ -78,10 +81,32 @@ const BoardingForm = ({name, email, image}:props) => {
                       name='name'
                       render={({field} )=>(
                         <FormItem>
-                          <FormLabel>Full Name</FormLabel>
-                          <FormControl>
-                           
-                          </FormControl>
+                          <FormLabel>Country</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+  <FormControl>
+    <SelectTrigger className="w-64 bg-white border rounded-lg px-3 py-2 text-black">
+      <SelectValue placeholder="Select Country" />
+    </SelectTrigger>
+  </FormControl>
+
+  <SelectContent className="w-64 bg-white rounded-lg shadow-lg">
+    {countryList.map((country) => (
+      <SelectItem
+        key={country.code}
+        value={country.name}
+        className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+      >
+        <img
+          src={country.flag}
+          alt={country.name}
+          className="w-6 h-4 object-cover rounded-sm"
+        />
+        <span className="text-black">{country.name}</span>
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
                           <FormMessage></FormMessage>
                         </FormItem>
                       )
