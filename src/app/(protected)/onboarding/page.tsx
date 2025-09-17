@@ -1,9 +1,10 @@
 import { userRequired } from "@/app/data/user/is-user-authenticated"
 import { getUserWorkspaces } from "@/app/data/workspace/get-user-workspaces"
-import OnBoardingForm from "@/components/onboardingform"
+// import OnBoardingForm from "../../../components/onboardingform"
 // import OnBoardingForm from "@/components/onboardingform"
 // import OnBoardingForm from "@/components/onboardingform"
 import { redirect } from "next/navigation"
+import BoardingForm from "@/components/BoardingForm"
 // import onBoardingForm from "@/components/onboardingform"
 export default async function onBoarding(){
     const {data} = await getUserWorkspaces()
@@ -17,11 +18,11 @@ export default async function onBoarding(){
     const name = `${user?.given_name || "" } ${user?.family_name || ""}`
     return(
         <div>
-            <OnBoardingForm
+            <BoardingForm
                 name={name}
                 email = {user?.email as string}
                 image = {user?.picture || ""}
-            ></OnBoardingForm>
+            ></BoardingForm>
         </div>
     )
 }
