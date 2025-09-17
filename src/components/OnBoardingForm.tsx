@@ -1,12 +1,14 @@
+import { userSchema } from "@/lib/schema"
+import z from "zod"
 
 interface props  {
     name:string,
     email:string
-    image:string
+    image?:string
 }
 
-
-export default function OnBoardingForm({name, email}:props){
+type UserDataType  = z.infer<typeof userSchema>
+export default function OnBoardingForm({name, email, image}:props){
     return (
         <div>
             onBoardingForm
