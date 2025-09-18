@@ -13,6 +13,8 @@ import { Button } from './ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { countryList } from '@/utils/countriesList'
 import { startOfDay } from 'date-fns'
+import { industryTypesList, roleList } from '@/utils'
+import { Textarea } from './ui/textarea'
 
 
 
@@ -83,7 +85,7 @@ const BoardingForm = ({name, email, image}:props) => {
                         <FormItem>
                           <FormLabel>Country</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
-  <FormControl>
+                        <FormControl>
     <SelectTrigger className="w-64 bg-white border rounded-lg px-3 py-2 text-black">
       <SelectValue placeholder="Select Country" />
     </SelectTrigger>
@@ -114,7 +116,94 @@ const BoardingForm = ({name, email, image}:props) => {
                     >
 
                     </FormField>
-                    <Button type='submit' className='cursor-pointer bg-black text-white'>Submit</Button>
+
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                        <FormField
+                      control={form.control}
+                      name='Industry Type'
+                      render={({field} )=>(
+                        <FormItem>
+                          <FormLabel>Industry Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+    <SelectTrigger className="w-64 bg-white border rounded-lg px-3 py-2 text-black">
+      <SelectValue placeholder="Select IndustryType" />
+    </SelectTrigger>
+  </FormControl>
+
+  <SelectContent className="w-64 bg-white rounded-lg shadow-lg text-black">
+    {industryTypesList.map((industry) => (
+      <SelectItem
+        key={industry}
+        value={industry}
+        className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+      >
+        {industry}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
+                          <FormMessage></FormMessage>
+                        </FormItem>
+                      )
+                      }
+                    >
+
+                    </FormField>
+                    </div>
+                     
+                    <FormField
+                      control={form.control}
+                      name='Industry Type'
+                      render={({field} )=>(
+                        <FormItem>
+                          <FormLabel>Role at Organisation</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+    <SelectTrigger className="w-64 bg-white border rounded-lg px-3 py-2 text-black">
+      <SelectValue placeholder="Select Role" />
+    </SelectTrigger>
+  </FormControl>
+
+  <SelectContent className="w-64 bg-white rounded-lg shadow-lg text-black">
+    {roleList.map((industry) => (
+      <SelectItem
+        key={industry}
+        value={industry}
+        className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+      >
+        {industry}
+      </SelectItem>
+    ))}
+  </SelectContent>
+</Select>
+
+                          <FormMessage></FormMessage>
+                        </FormItem>
+                      )
+                      }
+                    >
+
+                    </FormField>
+
+                    <FormField 
+                      control={form.control}
+                      name='about'
+                      render={({field})=>(
+                        <FormItem>
+                          <FormLabel>Tell Us About Your Self</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} placeholder='tell us about your self' className='resize-none'>
+
+                            </Textarea>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                      >
+
+                    </FormField>
+                    <Button type='submit' disabled={pending} className='cursor-pointer bg-black text-white'>Submit</Button>
                     {/* <Button>Submit</Button> */}
                     {/* Add your form fields here */}
                   </form>
